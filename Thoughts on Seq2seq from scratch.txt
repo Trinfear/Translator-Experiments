@@ -1,0 +1,98 @@
+SEQ to SEQ Models
+
+
+Encoder
+	lstm intakes onhot
+	whatever layers to process to encode it
+	dense output layer
+
+
+in_put shape = input_vocab_size * max_inp_len
+out_shape = embedding_dim
+
+
+
+
+Decoder
+	input is dense intaking embedding vector
+	whatever processing layers to decode
+	output is lstm or dense?
+
+in_shape = embedding_dim
+out_shape = taget_vocab_size * max_output_len
+		(for lstm outputs, ignore max output and just continously output until end tag?)
+
+
+encoder can be same for every decoder
+	train same encoder fon several different languages?
+
+
+train an word2vec machine and reverse word2vecmachine for every language
+	have to do translation training to make sure it maps to the same places
+
+
+essentially the goal is a word2vec machine across multiple languages
+	achieved through mapping different languages to eachother
+	then take intermediary representation
+
+
+encoder:
+	intakes one hot
+	converts to abstract vector
+
+decoder:
+	intakes abstract vector
+	convers to one hot
+
+
+one hot decoding ideas
+	make func with same name, so it intakes a onehot and gives word?
+	just make them based on index, instead of vector?
+
+decoder output:
+	2d array
+		list of onehots
+		each onehot list gets softmaxed to get simple index value
+		index value used to find word in language_lexicon
+	continous output
+		single onehot
+
+
+
+
+encoder:
+	intakes sentence vector
+	embeds words using embedding layer
+	passes each word to gru layer
+	take final output
+
+decoder
+
+
+
+
+
+
+encode input sequence
+feed state vectors and target sequence into decoder
+sample next word using argmax
+append sampled character to target sequence
+repeat until end of sequence character or character limit
+
+
+ENCODER THROWS AWAY ALL ITS OUTPUTS AND USES HIDDEN EMBEDDING STATE AS OUTPUT?!?!
+
+
+
+take sentences and generate three values:
+	encoder input (3d array of one hot encoding of words)
+	decoder input (3d array containing one hot encoding of target sentence)
+	decoder target (same as input but offset by one time step ahead)
+
+
+embedding layers intake sequences and output a word2vec embedding basically
+
+
+
+
+

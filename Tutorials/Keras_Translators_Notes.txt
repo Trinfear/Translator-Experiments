@@ -1,0 +1,113 @@
+
+
+simple keras tutorial notes
+
+open text, and split up
+
+break into input and target sentences
+
+add in start and end tags to target sentences consisting of '\t' and '\n' respectively
+
+iteration is character based instead of word based
+
+create indices for token encodings
+
+create mock model to demonstrate what model should be, then use model function to generate inputs
+	add embedding layers to models
+
+create reverse look up indices
+
+decode sequences by
+	feed through encoder model
+	create single char target sequence
+	set first char as start char for target sequence
+
+	run decoder model intaking current target sequence and encoder output
+
+	stop when decoder outputs end tag
+
+	make decoder one hot output, and softmax index treated as final output
+
+
+
+
+================================================================================
+
+model
+
+intakes:
+	word indices for target and input, going both ways
+	encoding dim
+	embedding dim
+	
+
+
+init func
+	set indices to self.indices
+	call create model which creates and trains the training model and returns encoder and decoder models
+
+create_models
+	most of what's in innit in current model
+	
+
+predict
+	intakes a sequence
+	passes sequence to encoder
+
+	generates empty list of decoded_words
+
+	while TRUE:
+
+		decoder(target_seq, enc_output)
+
+		index = np.argmax(dec_output[0, -1, :])
+		sampled_word = output_reverse_index[index]
+		decoded_words += word
+
+		if sampled_word == '<end>' or len(decoded_words) >= max_pred:
+			break
+	
+		# reset target sequence to 1x1xlen??
+		target_seq[0, 0, index] = 1
+
+	return decoded_words
+
+
+
+================================================================================
+other thoughts
+
+
+how to add attention?
+	new layer at begining of decoder?
+
+
+fixing target sequence
+	append, instead of reset?
+	can it handle different shapes?
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,20 @@
+attention notes
+
+second set of weights
+
+signals which part of the original sentence is being focused on for the translation
+
+
+
+
+
+
+encoder model
+	intakes x and hidden layer values
+	embeds words using embedding layer
+	passes them to gru layer with initial state as 'hidden'
+	gets output and state from gru and returns them
+
+
+running encoder
+	initialize hidden as tf.zeros

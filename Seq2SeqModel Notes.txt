@@ -1,0 +1,155 @@
+
+==============================working with data=================================
+
+data cleaning
+	convert unicode to ascii
+	clean out characters, add spaces
+	add start and end tags
+
+
+getting sentences
+	intake dataset as unicode
+	split into sentences by line ('\n')
+	split into languages by tab ('\t')
+	clean sentences using above method
+	get list of sentences
+	each sentence is a list containing the sentence in each language
+	
+
+
+generating datasets
+	get sentences from above
+	split by language
+	create language indices
+	vectorize all the sentences
+	get max sentence length in each language
+	pass both language sentence set tensors to tf.keras.preprocessing
+
+
+variables
+	example count
+	batch size
+	buffer size
+	number of batches batch
+	embedding dimmension
+	units(??)
+	vocab size of input language
+	vocab size of output language
+
+
+====================================models======================================
+
+
+language indexes
+	intake lexicon of words
+	encode words to ids and vice versa
+		use onehot or just numbers?
+		try both?
+
+
+Encoder creation
+	create subclass of tf.keras.model
+		create new init
+			get a self.batch_sz, self.encoder_units, 
+		change call func
+		add initialize_hidden_state func
+	us keras.model to autogenerate a model based on input/outputs
+
+
+Decoder Creation
+	basically same as encoder
+
+
+encoder call
+	intakes x, gru_state
+	embeds x
+	passes x and gru_state to gru
+
+
+decoder call
+	intakes x, gru_state of encoder, encoding
+	creates a context vector
+	embeds x
+	concatenates x and context vector
+	passes x and gru_state to gru
+	reshapes output
+	passes to final dense layer
+
+
+model training
+	for epoch in epochs
+	intialize encoder gru_init_state
+	iterate through the dataset, breaking it into batches
+	(manually run model? each time?)
+	get encoder output and hidden from inputs
+	set decoder hidden to encoder hidden
+	reshape encoder output to get decoder input
+	get predictions and decoder hidden by running decoder on decoder input
+	get loss
+	set decoder input as target value and reshape properly
+	calculate batch loss
+	extract variables
+	extract gradient from loss and variables
+	optimize using gradients
+
+
+training the models
+	
+
+
+model use
+
+
+attention
+	just a specific layer with unique value calculations, sort of
+	defined within decoder
+	additional set of weights
+	multipled by encoder output to create context vector
+
+	each location is given a score based on chosen attention equation
+	score layer uses softmax activation
+	mulitply by inputs to create a context vector as new input
+
+
+plotting attention
+
+
+other notes
+	teacher forcing:
+		giving lstm cells correct output instead of previous output
+		ie give them target data as previous output instead
+
+
+
+
+
+
+===================================things to change=============================
+
+
+reorganize
+	reorder functions
+	break into a few seperate scripts for clarity
+		data cleaning
+		model creation
+		model training
+
+
+improve names
+	make sure all names are more representative and clear
+
+
+improve imports
+	import more directly, instead of calls to tf.keras.etc
+
+
+experiment with lstms over grus?
+	lstms are supposed to be strictly better at this
+	however they are more expensive computationally
+
+
+
+
+
+
+
